@@ -1,0 +1,380 @@
+﻿vi常用命令
+
+一、打开文件
+vi +12 file 打开文件的第12行
+vi + file 打开文件的最后一行
+vi +/pattern 打开文件匹配到模式的第一行
+
+二、关闭文件
+
+vim三种常见模式
+1、命令模式或者编辑模式(默认模式)
+2、输入模式
+3、末行模式
+编辑模式使用aio转到输入模式
+a表示在当前字符的下一个位置插入
+i表示前面一个字符插入
+o表示新起一行,作为字符插入
+A表示在行尾插入
+I表示在行首插入
+0表示在当前字符上方一行新起一行插入
+
+输入模式到编辑模式使用esc
+编辑模式到末行模式使用：
+末行模式到编辑模式使用esc
+
+关闭文件
+:q 不保存退出
+:q! 强制不保存退出
+:wq 保存退出
+:w  保存
+:w! 强制保存
+
+三、光标移动
+1 逐字符移动
+使用箭头上下左右
+使用 h 左 l 右 j 上 k 下
+5h 向左五个字符
+2 逐个单词移动
+w 移动到下一个单词的词首
+e 移动到当前单词的词尾或者下一个单词的词尾 
+b 跳转至当前或者前一个单词的词首
+3 行内跳转
+快速跳转到行首 0或者^
+0表示绝对行首
+^表示非空的行首
+$表示行尾
+4 行间跳转
+nG 跳转到第n行
+G  跳转到最后一行
+末行模式下 :n 跳转到第n行
+
+四、翻屏
+ctrl + f 向下翻一屏
+ctrl + b 向上翻一屏
+ctrl + d 向下翻半屏
+ctrl + u 向上翻半屏
+
+五、删除单个字符
+x 删除当前光标所在的一个字符
+nx删除光标所在的n个字符
+
+六、删除命令d
+d0 删除从当前光标到行首
+d$ 删除到行末
+dw 逐个单词删除
+3dw 连续删除3个单词
+dd 删除光标所在的行
+3dd 删除下面的三行
+末行模式下使用
+10，20d 删除10-20行的数据
+.，+5d 从当前行删除下面的五行
+注意：. 表示当前行
+$ 表示最后一行
++ 表示向下移动n行
+$-1表示倒数第二行
+
+七、黏贴p
+小写p 放在当前行的下边一行
+大写P 放在上边一行
+
+八、复制命令y
+用法同d
+
+九、先删除内容在转入输入模式c
+用法同d
+
+十、替换replace
+r 替换当前当个字符
+6ra 把当前和之后的五个字符替换为a
+R 替换模式，依次替换字符，回到编辑模式用esc
+
+十一、撤销编操作undo
+u：撤销前一次编辑操作
+uu：撤销两次操作
+3u：撤销三次 最多能撤销50次
+如果多撤销一次，可以使用ctrl + r
+
+十二、重复上面的操作
+.
+
+十三、可视化模式view
+v或者V
+v 表示选定光标所在的字符
+V 表示选定光标所在的行
+使用esc退回到编辑模式
+
+十四、查找
+/pattern  从前往后
+?pattern  从后往前  n N 下一个
+
+十五、查找并替换
+在末行模式下使用s，具体使用同sed命令
+
+十六、vim编辑多个文件
+vim 打开两个文件 vim file1 file2
+模式模式下输入
+:next 下一个文件
+:prev 上一个文件
+:last 最后一个文件
+:first 第一个文件
+:qa   全部退出
+
+十七、如何分屏显示同一个文件
+ctrl + w 松开 s 水平拆分窗口
+ctrl + w 松开 v 垂直拆分窗口
+ctrl + w 松开 下箭头下一个窗口
+ctrl + w 松开 上箭头上一个窗口
+:qa 全部退出
+
+十八、分窗口显示多个文件
+vim -o file1 file2  水平显示
+    -O 垂直显示
+	
+十九、将当前部分内容存到另一个文件
+莫行模式下使用w命令
+:w 例如 addres1,addres2 w /path/to/somewhere
+
+二十、将另一个文件存入到当前文件中
+:r /path/to/somewhere
+
+二十一、跟shell交互
+:!shell命令即可
+
+二十二、高级话题
+1、显示行号 
+:set nu
+:set nonu 取消行号
+2、显示忽略大小写
+:set ic(ignorecase)
+:set noic
+3、设定自动缩进
+:set autoindent(ai)
+:set noai
+4、查找到的文本高亮显示
+:set hlsearch(highlight)
+:set nohlsearch
+5、语法高亮
+:syntax on
+:syntax off
+
+二十三、vim配置文件
+/etc/vimrc  所有用户
+~/.vimrc    当前用户
+
+组合测试条件
+-a 与关系
+-o 或关系
+!  非关系
+用法：[$# -gt 1 -a $# -le 3]
+
+let 特殊用法
+let SUM += $I 还可以用- * / %
+    I++ ++I
+	I-- --I
+
+文件查找
+1、locate 根据全系统文件数据库进行查找，每天晚上
+系统会用于注册，使用的是模糊查询 更新使用updatedb
+2、find实时精确查找，速度慢
+find 查找路径 查找标准 查找的处理动作
+查找路径：默认为当前目录
+查找标准：默认为指定路径下的所有文件
+处理动作：默认打印到屏幕
+
+匹配标准：
+-name 根据名字查找
+-iname 不区分大小写 -i -name
+-regex pattern 根据正则表达式查找
+-user username 根据用户名查找
+-group groupname 组名查找
+-uid uid查找
+-gid gid查找
+文件的用户名被删除后，用户名变成了uid
+-nouser 查找没有用户的文件
+-nogroup 没有属组的文件
+-type 根据文件类型查找文件
+-d 目录 -f 普通文件
+-size 文件大小
+  nK文件大小大约在nk左右的，+-分别代表大于nk和小于nk
+  nM nG
+
+组合条件：
+-a 与 默认与操作
+-o 或操作 -not 非操作 
+ 
+根据文件时间戳
+-mtime  修改时间
+-ctime  改变时间
+-atime  访问时间
+-mmin   +5 五天以上
+-cmin   -5 五天以内
+-amin   以分钟为单位
+
+-perm MODE 根据文件权限查找
+     -MODE 每一位都必须匹配，文件处于包含关系
+	 /MODE 只要有一位权限匹配即可
+执行动作：默认为 -print：显示
+-ls 类似ls -l 显示文件详细信息
+-ok command {} \;   需要用户确认
+-exec command {} \; 不需要用户确认
+-exec mv {} {}.new \; 换成一个新的名字
+
+xargs 从标准输入读取并执行
+find /etc/ -size +1M -exec echo{} >>/tmp/etc/arras\;
+find /etc/ -size 1+M | xargs echo >> /tmp/etc/arras
+
+特殊权限
+SUID 运行一段指令时，用指令的属主作文当前文件执行的属主
+SGID 改变了属组
+sticky 在一个公共目录下，每个人都可以创建文件，
+删除自身文件，但是不能删除其他人的文件
+用法：chmod u + s
+      chomd u - s
+      chomd g + s
+      chmod g - s
+sticky用法
+chmod  o+t
+chmod  o-t
+SGID特殊用法
+在目录中创建文件时，用的是目录的属组
+可以把这三位构成一个新的八进制数字
+chmod 1755 /back/txt
+umask 默认为 0022
+
+文件系统访问列表 file system access contrl list FACL
+利用文件扩展保存额外的访问控制权限
+明确指明那个用户对哪个用户的访问限制	  
+getfacl 可以查看file附加属性
+setfacl -m：设定
+        -x：取消
+set -m u:hadoop:rw inittab(file)
+    -m g:mygroup:rw initab
+	-x g:mygroup initab
+如果是一个目录，那么目录中文件会自动继承
+默认当前用户查看文件权限：
+owner->group->other
+如果添加了访问权限有
+owner->facl user->group->facl group->other
+get后会发现一个mask
+mask中u和g最大的权限不能超过
+同时可以设置mask
+
+whoami 当前登录用户是谁
+who 查看当前有那些用户和终端
+格式：用户 终端 时间
+终端：
+控制台(非终端)直接连在文件设备上，显示器和键盘
+1、pty物理终端 设备已经被识别，但与用户没有关联
+2、tty虚拟终端 在物理终端上虚拟出来
+3、ttys串行终端 没有显卡
+4、pts远程终端
+who -H 不换行显示出来
+sleep 3 睡3秒钟
+
+w 谁登录了并且当前在干什么
+
+last 查看登录日志 或者cat /var/log/wtmp
+last -n 3 只显示最近三次
+
+lastb显示用户错误登录 cat /var/log/btmp
+
+lastlog 所有用户上一次登录时间
+    -u 指定一个用户
+
+basename 去文件路径基名
+basename /etc/abc/def  会显示def
+
+$0 会显示命令本身
+
+mail 为用户创建一个邮箱
+-s 指定标题
+cat /etc/fstab | mail -s   username
+
+hostname 显示主机名 
+环境变量 HOSTNAME 也能看
+
+生成随机数 RANDOM 0-32768
+/dev/random   数量不够会阻塞
+/dev/urandom  数量不够时不会阻塞，用软件模拟生成其他
+
+case用法
+case SWITCH in
+value1)
+     statement
+	 ...
+	 ;;
+value2)
+     statement
+	 ...
+	 ;;
+*)
+     statement 
+	 ...
+	 ;;
+esac
+case $1 in
+[0-9])
+     echo "a digit"
+	 ;;
+[a-z])
+     echo "a lower char"
+     ;;
+[A-Z])
+     echo "a upper char"
+	 ;;
+*)
+     echo "other char"
+	 ;;
+esac
+
+ln src dest 创建一个硬链接
+  -s 创建一个软链接
+硬链接 
+1、只能对文件创建，不能对目录创建
+2、不能跨文件系统
+3、穿件硬链接会增加inode数量
+软连接
+1、可以用于目录
+2、可以跨文件系统
+3、不会增加inode的数量
+4、大小为指定路径所包含字符个数
+
+du显示某个特定目录磁盘使用情况
+默认情况下，显示当前目录所有文件、目录
+和子目录的磁盘使用情况
+-c 显示所有已列出文件总的大小
+-h 单位换算
+
+df查看文件系统使用情况
+df -h 单位换算
+df -i 一共有多少inode可以使用
+df -p 显示别换行
+
+/dev 目录显示情况
+主设备号：识别设备类型
+次设备号：表示同一种类型不同设备
+
+mknod 用于创建块或字符的特征文件
+mknod -m 640 mydev 66 0
+-m设备权限，mydev设备名 66 主设备号 0次设备号
+
+设备文件与某个硬件关联
+tty查看当前设备
+echo "hello" >> /dev/pts/1
+
+高级格式化
+mkfs -t ext3 创建ext3文件系统
+
+fdisk管理安装在系统上的任何存储设备的分区
+用法 fdisk /dev/pts/1 创建分区
+当分区不存在时，会显示交互性界面
+1、p：显示当前硬件的分区，包括未保存的改动
+2、n：创建一个新的分区 e扩展 p主分区
+3、d：删除一个分区
+4、w：保存退出
+5、q：不保存退出
+6、t：修改分区的系统id 
+7、m：显示其他命令
+但是内核尚未识别这些分区，需要使用partprobe
+具体信息在/proc/partition
